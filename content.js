@@ -51,6 +51,10 @@ function copyTableBodyToClipBoard(selectedTableIndex) {
     row.querySelectorAll('td, th').forEach(cell => {
       // Get the text content of the cell
       rowData.push(cell.innerText.trim());
+      // Get links
+      cell.querySelectorAll('a').forEach(link => {
+        rowData.push(link.href);
+      });
     });
 
     // Push the row data to the table content
