@@ -59,7 +59,11 @@ function getAllTableData(table) {
       rowData.push(cell.innerText.trim());
       // Get links
       cell.querySelectorAll('a').forEach(link => {
-        rowData.push(link.href);
+        const urlReg = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+        const isUrl = link.href.match(urlReg);
+        if (isUrl) {
+          rowData.push(link.href);
+        }
       });
     });
 
