@@ -8,19 +8,24 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
+      width: 300px;
     }
     select {
       width: 100%;
+      padding: 10px 12px;
       margin-bottom: 10px;
     }
     button {
       width: 100%;
+      padding: 10px 12px;
     }
   </style>
 </head>
 <body>
   <h2>Select a table to copy:</h2>
-  <select id="tableSelect"></select>
+  <select id="tableSelect">
+    <option value="">--Please choose an option--</option>
+  </select>
   <button id="copyButton">Copy Table Content</button>
 
   <script src="popup.js"></script>
