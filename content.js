@@ -33,37 +33,39 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       // Send table data back to the popup script
       sendResponse({tables: tableData});
     } else if (message.action === 'copyTable') {
-      const selectedTableIndex = message.tableIndex;
-      
-      // Find the selected table and copy its content to clipboard
-      const selectedTable = document.querySelectorAll('table')[selectedTableIndex];
-      const tableContent = [];
-      
-      // Loop through each row in the selected table
-      selectedTable.querySelectorAll('tr').forEach(row => {
-        const rowData = [];
-        
-        // Loop through each cell in the row
-        row.querySelectorAll('td, th').forEach(cell => {
-          // Get the text content of the cell
-          rowData.push(cell.innerText.trim());
-        });
-        
-        // Push the row data to the table content
-        tableContent.push(rowData.join('\t'));
-      });
-      
-      // Join the rows with newline character
-      const tableText = tableContent.join('\n');
-      
-      // Copy table text to clipboard
-      navigator.clipboard.writeText(tableText)
-        .then(() => {
-          console.log('Selected table content copied to clipboard');
-        })
-        .catch(error => {
-          console.error('Failed to copy selected table content to clipboard:', error);
-        });
-    }
+    const tableIndex = message.tableIndex;
+    copyTableBodyToClipBoard(tableIndex);
+  }
+});
+
+function copyTableBodyToClipBoard(selectedTableIndex) {
+  // Find the selected table and copy its content to clipboard
+  const selectedTable = document.querySelectorAll('table')[selectedTableIndex];
+  const tableContent = [];
+
+  // Loop through each row in the selected table
+  selectedTable.querySelectorAll('tr').forEach(row => {
+    const rowData = [];
+
+    // Loop through each cell in the row
+    row.querySelectorAll('td, th').forEach(cell => {
+      // Get the text content of the cell
+      rowData.push(cell.innerText.trim());
+    });
+
+    // Push the row data to the table content
+    tableContent.push(rowData.join('\t'));
   });
-  
+
+  // Join the rows with newline character
+  const tableText = tableContent.join('\n');
+
+  // Copy table text to clipboard
+  navigator.clipboard.writeText(tableText)
+    .then(() => {
+      console.log('Selected table content copied to clipboard');
+    })
+    .catch(error => {
+      console.error('Failed to copy selected table content to clipboard:', error);
+    });
+}
