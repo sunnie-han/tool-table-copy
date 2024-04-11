@@ -59,13 +59,24 @@ function copyTableBodyToClipBoard(selectedTableIndex) {
 
   // Join the rows with newline character
   const tableText = tableContent.join('\n');
-
-  // Copy table text to clipboard
-  navigator.clipboard.writeText(tableText)
-    .then(() => {
-      console.log('Selected table content copied to clipboard');
-    })
-    .catch(error => {
-      console.error('Failed to copy selected table content to clipboard:', error);
-    });
+  copyTextToClipBoard(tableText);
 }
+
+function copyTextToClipBoard(text) {
+  async function writeTextToClipBoard() {
+    // Copy table text to clipboard
+    // reference: https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
+    navigator.clipboard.writeText(text).then(() => {
+      alert("복사 성공 ✨");
+    }).catch((error) => {
+      alert("복사 실패 😣 : " + error)
+    });
+  }
+
+  // clipboard api는 window에 focus가 있어야 사용 가능
+  // required: Failed to execute 'writeText' on 'Clipboard': Document is not focused.
+  window.focus();
+  setTimeout(writeTextToClipBoard, 1000);
+
+}
+
